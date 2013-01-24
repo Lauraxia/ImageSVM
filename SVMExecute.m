@@ -1,12 +1,14 @@
-function output = SVMExecute
+function output = SVMExecute ( uniqueData )
     fprintf('Reading logical categorization data (category.dat)\n')
-    class_d = csvread('category.dat');
+    %class_d = csvread('category.dat');
+    class_d = uniqueData(1:100,3);
 
     fprintf ('Reading training target points (train.dat)\n')
-    trainxy_d = csvread('train.dat');
+    %trainxy_d = csvread('train.dat');
+    trainxy_d = uniqueData(1:100,1:2);
     
     fprintf('Loading Image Data\n')
-    image_d = imread('alex.jpg');
+    image_d = imread('image.bmp');
     %conv_str = makecform('srgb2lab');
     %labimg_d = applycform(image_d,conv_str);
     
@@ -26,7 +28,8 @@ function output = SVMExecute
     svmstr_d = svmtrain(train_d, class_d, 'kernel_function','mlp');
     
     fprintf('Reading testing data (test.dat)\n')
-    testxy_d = csvread('test.dat');
+    %testxy_d = csvread('test.dat');
+    testxy_d = uniqueData(101:200,1:2);
     
     rowcount = length(testxy_d(:,1));
     testlab_d = zeros(rowcount,3);
