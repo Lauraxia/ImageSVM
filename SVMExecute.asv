@@ -16,7 +16,7 @@ function output = SVMExecute
     
     labtrain_d = zeros(rowcount,3);
     
-    labtrain_d = xyToLab(trainxy_d, image_d);
+    labtrain_d = xyToLab(image_d, trainxy_d);
     
 %     for i = 1:rowcount,
 %         pos_x = trainxy_d(i,1) + 1;
