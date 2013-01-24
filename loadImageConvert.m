@@ -1,0 +1,3 @@
+a = imread('alex.jpg');
+coords = [1, 1; 3, 3; 2, 4];
+lab = xyToLab(coords, a);
