@@ -1,4 +1,4 @@
-function output = SVMExecute ( scanType )
+function [output] = SVMExecute ( scanType )
 % Trains and tests SVM for classifying points on 'image.bmp'
 % 1 == Test scan, 0 == Full Image Scan
     fprintf('Reading logical categorization data:               ')
@@ -76,6 +76,7 @@ function output = SVMExecute ( scanType )
         end
     fprintf('%d Points Done\n',length(class_d))
     else
+        % Complete Image Search format.
         fprintf('Classifying Image using SVM:                     ')
         image_sizes = size(image_d);
         class_img = zeros(image_sizes(1),image_sizes(2),image_sizes(3));
@@ -97,7 +98,7 @@ function output = SVMExecute ( scanType )
     
     
     
-    output = 1;
+    output = class_img;
     image(class_img);
 end
 
