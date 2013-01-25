@@ -52,10 +52,11 @@
     fprintf('Converting Training Points to LAB format\n')
     labtrain_d = xyToLab(trainxy_d(:, 1:2), image_d);
     sobel_d = xyToSobel(trainxy_d(:, 1:2), image_d);
+    gaussianlab_d = xyToGaussianLab(trainxy_d(:, 1:2), image_d);
     % To create the training and test data, we need to concatenate the
     % two matricies together to form the 5-Dimensional Input.
     % train_d[h,2], labtrain_d[h,3]
-    train_d = horzcat(trainxy_d(:,1:2), horzcat(labtrain_d, sobel_d));
+    train_d = horzcat(horzcat(trainxy_d(:,1:2),gaussianlab_d), horzcat(labtrain_d, sobel_d));
     %train_d = labtrain_d;%
     %train_d = trainxy_d(:,1:2);
     %% training
@@ -72,7 +73,8 @@
     fprintf('Converting Test Points to LAB format\n')
     testlab_d = xyToLab(testxy_d, image_d);
     testsobel_d = xyToSobel(testxy_d, image_d);
-    test_d = horzcat(testxy_d(:,1:2), horzcat(testlab_d, testsobel_d));
+    testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
+    test_d = horzcat(horzcat(testxy_d(:,1:2), testgaussianlab_d), horzcat(testlab_d, testsobel_d));
     %test_d = testlab_d;%testxy_d(:,1:2);
     %test_d = testxy_d(:,1:2);
     fprintf('Classifying Data using SVM\n')
