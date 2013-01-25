@@ -1,5 +1,5 @@
 function [ maskPoints ] = generateMaskPoints (verbosity)
-%SVMCLASSIFY Sets up a Support Vector Machine to classify the target image.
+%GENERATEMASKPOINTS Creates a classifier mask for training an SVM
 %   During the initial stage, the system generates a randomized pool of
 %   points based on the density mask as supplied by 'density_mask.png'. If
 %   the mask_levels are set with increasing value, the brighter pixels on
@@ -10,14 +10,19 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
     % mask_count: Points per mask level
     mask_level_b  = 1;
     mask_level_t  = 255;
-    mask_inc      = 1;  % -1 for decrement
+    mask_inc      = -1;  % -1 for decrement
     mask_count    = 40;   
     mask_file     = 'density_mask.png';
+    class_file    = 'density_class.png';
 
+    class_one     = 1;      % White Mask
+    class_two     = -1;     % Black Mask
+    class_cutoff  = 128;    % Gray Midpoint
     
     % Construct the heap of points to be used for training.
-    mask_data = rgb2gray(imread(mask_file));
-    mask_size = size(mask_data);
+    mask_data  = rgb2gray(imread(mask_file));
+    class_data = rgb2gray(imread(class_file));
+    mask_size  = size(mask_data);
     if (~exist('verbosity','var'))
         verbosity = 0;
     end
@@ -32,7 +37,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
         end
         mask_levels = mask_level_t:mask_inc:mask_level_b;
     end
-    point_heap = zeros(length(mask_levels) * mask_count, 2);
+    point_heap = zeros(length(mask_levels) * mask_count, 3);
 
     if (verbosity >= 1)
         fprintf('Permuting levels:\n')
@@ -51,8 +56,14 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
             continue;
         end
         for j = 1:mask_count
-            % Using select_rp as a pool of random slots in the 
-            point_heap(i*mask_count + j,:) = [mod(select_rp(j), mask_size(1)) ,floor(select_rp(j) / mask_size(1)) ];
+            pos_y = mod(select_rp(j),mask_size(1));
+            pos_x = floor(select_rp(j) / mask_size(1));
+            if (class_data(pos_y+1,pos_x+1) >= class_cutoff)
+                pos_c = class_one;
+            else
+                pos_c = class_two;
+            end
+            point_heap(i*mask_count + j,:) = [pos_y,pos_x ,pos_c];
         end
         i_count = i_count + 1;
         if((mod(i_count,10) == 0) && (verbosity >= 1))
