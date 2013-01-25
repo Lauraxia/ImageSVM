@@ -63,7 +63,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
             else
                 pos_c = class_two;
             end
-            point_heap(i*mask_count + j,:) = [pos_y,pos_x ,pos_c];
+            point_heap(i*mask_count + j,:) = [pos_x,pos_y ,pos_c];
         end
         i_count = i_count + 1;
         if((mod(i_count,10) == 0) && (verbosity >= 1))
