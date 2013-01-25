@@ -121,7 +121,14 @@
     
     imshow(img_plot);
     
+    % Accuracy
+    imageCmp = imread('Haykin_cover_sketch-mask.bmp');
     
+    cmp = (img_plot(:,:,1) > 0 & imageCmp(:,:,1) > 0) | ((img_plot(:,:,2) >0) & (imageCmp(:,:,2) == 0));
+    [M,N] = size(cmp);
+    
+    acc = (sum(sum(cmp)))/(M*N);
+    disp([num2str(acc*100) '% accuracy'])
 %end
 
 
