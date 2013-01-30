@@ -90,7 +90,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
         permute_this = randperm(length(point_heap(:,1)));
         permute_this = permute_this(1:pointLimit);
         
-        point_heap = point_heap(permute_this);
+        point_heap = point_heap(permute_this,:);
         fprintf('Limiting output to %d points\n',pointLimit)
     end
     
