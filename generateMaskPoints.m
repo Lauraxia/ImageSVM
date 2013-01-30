@@ -15,8 +15,8 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     mask_file     = 'density_mask.png';
     class_file    = 'density_class.png';
 
-    class_one     = 1;      % White Mask
-    class_two     = -1;     % Black Mask
+    class_one     = -1;      % White Mask
+    class_two     = 1;     % Black Mask
     class_cutoff  = 128;    % Gray Midpoint
     
     % Construct the heap of points to be used for training.
@@ -94,7 +94,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
         fprintf('Limiting output to %d points\n',pointLimit)
     end
     
-    maskPoints = [point_heap(:,2), point_heap(:,1), point_heap(:,3)];
+    maskPoints = [point_heap(:,1), point_heap(:,2), point_heap(:,3)];
   
     
         % Accuracy
