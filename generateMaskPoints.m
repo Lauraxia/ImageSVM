@@ -1,4 +1,4 @@
-function [ maskPoints ] = generateMaskPoints (verbosity)
+function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
 %GENERATEMASKPOINTS Creates a classifier mask for training an SVM
 %   During the initial stage, the system generates a randomized pool of
 %   points based on the density mask as supplied by 'density_mask.png'. If
@@ -80,7 +80,20 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
         fprintf('%d unique points generated out of %d points\n',size(point_heap,1),old_phlen)
     end
     
+    % Removing the first row as it contains the first point of the image
     point_heap(1,:) = [];
+    
+    if (exist('pointLimit','var'))
+        % Since we've defined the number of points we want, we will permute
+        % and filter the points down to the requested amount.
+        
+        permute_this = randperm(length(point_heap(:,1)));
+        permute_this = permute_this(1:pointLimit);
+        
+        point_heap = point_heap(permute_this);
+        fprintf('Limiting output to %d points\n',pointLimit)
+    end
+    
     maskPoints = point_heap;
 end
 
