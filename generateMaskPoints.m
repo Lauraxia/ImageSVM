@@ -55,15 +55,15 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
         if (length(select_rp) < mask_count)
             continue;
         end
-        for j = 1:mask_count
-            pos_y = mod(select_rp(j),mask_size(1));
-            pos_x = floor(select_rp(j) / mask_size(1));
-            if (class_data(pos_y+1,pos_x+1) >= class_cutoff)
+        for j = 1 : mask_count
+            pos_y = mod(select_rp(j),mask_size(1)) + 1;
+            pos_x = floor(select_rp(j) / mask_size(1)) + 1;
+            if (class_data(pos_y, pos_x) >= class_cutoff)
                 pos_c = class_one;
             else
                 pos_c = class_two;
             end
-            point_heap(i*mask_count + j,:) = [pos_x,pos_y ,pos_c];
+            point_heap(i * mask_count + j , :) = [pos_x, pos_y, pos_c];
         end
         i_count = i_count + 1;
         if((mod(i_count,10) == 0) && (verbosity >= 1))
@@ -80,6 +80,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity)
         fprintf('%d unique points generated out of %d points\n',size(point_heap,1),old_phlen)
     end
     
+    point_heap(1,:) = [];
     maskPoints = point_heap;
 end
 
