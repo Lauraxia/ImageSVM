@@ -25,7 +25,7 @@
     %}
     
     trainxy_d = uniqueTraining(1:midpoint,:);
-    testxy_d = uniqueTraining(midpoint:end,:);
+    trainxy_testd = uniqueTraining(midpoint:end,:);
         
     
     %load, transpose image:
@@ -136,4 +136,15 @@
     
     acc = (sum(sum(cmp)))/(M*N);
     disp([num2str(acc*100) '% accuracy'])
+    
+    
+    
+    cmp2 = 0;
+    for i=1:length(trainxy_testd(:,1,1))
+       cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
+    end
+    
+    acc2 = cmp2/length(trainxy_testd(:,1,1));
+    disp([num2str(acc2*100) '% accuracy for test points only'])
+    
 %end
