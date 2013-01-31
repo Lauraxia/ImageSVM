@@ -1,0 +1,25 @@
+\documentclass[11pt]{report}
+\usepackage{natbib}
+\usepackage{setspace} 
+\usepackage{graphicx}
+\usepackage{url}
+
+\DeclareGraphicsExtensions{.pdf,.eps,.ps,.png,.jpg}
+\graphicspath{ {images/} }
+\setlength{\headheight}{14pt}
+
+\begin{document}
+
+\include{information}   
+        \setcounter{figure}{0}
+        \setcounter{equation}{0}
+        \setcounter{table}{0}
+
+\nocite{*}
+\bibliographystyle{natbib}
+\bibliography{references}       
+
+\label{NumDocumentPages}
+
+\end{document}
+
