@@ -11,12 +11,12 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     mask_level_b  = 1;
     mask_level_t  = 255;
     mask_inc      = -1;  % -1 for decrement
-    mask_count    = 40;   
+    mask_count    = 4000;   
     mask_file     = 'density_mask.png';
     class_file    = 'density_class.png';
 
-    class_one     = 1;      % White Mask
-    class_two     = -1;     % Black Mask
+    class_one     = -1;      % White Mask
+    class_two     = 1;     % Black Mask
     class_cutoff  = 128;    % Gray Midpoint
     
     % Construct the heap of points to be used for training.
@@ -94,15 +94,15 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
         fprintf('Limiting output to %d points\n',pointLimit)
     end
     
-    maskPoints = point_heap(:,;
-    maskPoints(
+    maskPoints = [point_heap(:,1), point_heap(:,2), point_heap(:,3)];
+  
     
         % Accuracy
     imageCmp = imread('Haykin_cover_sketch-mask.bmp');
     
-    img_plot = zeros(length(mask_data(:,1,1)), length(mask_data(1,:,1)), 3);
+    img_plot = zeros(length(mask_data(1,:,1)), length(mask_data(:,1,1)), 3);
     for i=1:length(maskPoints(:,1,1))
-       img_plot(maskPoints(i,2), maskPoints(i,1), maskPoints(i,3)+2) = 1;
+       img_plot(maskPoints(i,1), maskPoints(i,2), maskPoints(i,3)+2) = 1;
     end
     image(img_plot);
 end
