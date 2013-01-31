@@ -8,16 +8,18 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     
     % mask_levels: Number of grayscale masks to consider (pixel val)
     % mask_count: Points per mask level
-    mask_level_b  = 1;
-    mask_level_t  = 255;
-    mask_inc      = -1;  % -1 for decrement
-    mask_count    = 40;   
-    mask_file     = 'density_mask.png';
-    class_file    = 'density_class.png';
+    mask_level_b    = 1;
+    mask_level_t    = 255;
+    mask_inc        = -1;       % -1 for decrement
+    mask_count      = 40;       % Number of points per mask layer
+    mask_entireimg  = 10000;    % Number of points from images (no mask)
+    mask_file       = 'density_mask.png';
+    class_file      = 'density_class.png';
 
-    class_one     = -1;      % White Mask
-    class_two     = 1;     % Black Mask
-    class_cutoff  = 128;    % Gray Midpoint
+    class_one       = -1;       % White Mask
+    class_two       = 1;        % Black Mask
+    class_cutoff    = 128;      % Gray Midpoint
+    
     
     % Construct the heap of points to be used for training.
     mask_data  = rgb2gray(imread(mask_file));
@@ -39,6 +41,28 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     end
     point_heap = zeros(length(mask_levels) * mask_count, 3);
 
+    if (mask_entireimg > 0)
+        if (verbosity >= 1)
+            fprintf('Grabbing %d points from entire image.\n',mask_entireimg)
+        end
+        
+        prefix_heap = zeros(mask_entireimg,3);
+        for i = 1:mask_entireimg
+            pos_x = randi(mask_size(2));
+            pos_y = randi(mask_size(1));
+            if (class_data(pos_y,pos_x) >= class_cutoff)
+                pos_c = class_one;
+            else
+                pos_c = class_two;
+            end
+            prefix_heap(i,:) = [pos_x,pos_y,pos_c];
+            
+        end
+    else
+        prefix_heap = [];
+    end
+    
+    
     if (verbosity >= 1)
         fprintf('Permuting levels:\n')
     end
@@ -80,8 +104,11 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
         fprintf('%d unique points generated out of %d points\n',size(point_heap,1),old_phlen)
     end
     
+    
     % Removing the first row as it contains the first point of the image
     point_heap(1,:) = [];
+    
+    point_heap = [prefix_heap;point_heap];
     
     if (exist('pointLimit','var'))
         % Since we've defined the number of points we want, we will permute
