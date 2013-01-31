@@ -15,9 +15,9 @@ filtH = imfilter(filtH,H,'replicate');
 filtV = imfilter(filtV,H,'replicate');
 
 %for testing only:
-imshow(filtH);
-figure;
-imshow(filtV);
+%imshow(filtH);
+%figure;
+%imshow(filtV);
 
 sobel = zeros(length(xy(:,1)), 2);
 
