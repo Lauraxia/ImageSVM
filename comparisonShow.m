@@ -11,8 +11,9 @@ for i = 1:testSize
 end
 
 for i = 1:testSize
-    for j = 1:testCount-1
-        diff(i,j,:,:,:) = squeeze(images(i,j,:,:,:) - images(i,j+1,:,:,:));
+    averages(i,:,:,:) = squeeze(images(i,1,:,:,:)) / (testCount - 1);
+    for j = 2:testCount-1
+        averages(i,:,:,:) = squeeze(averages(i,:,:,:)) + squeeze(images(i,j,:,:,:)) / (testCount -1);
     end
 end
 
@@ -21,16 +22,12 @@ end
 % over the second parameter positions.
 
 
-for i = 1:testSize
-    diff2(i,:,:,:) = squeeze(diff(i,1,:,:,:));
-    for j = 2:testCount-1
-        diff2(i,:,:,:) = squeeze(squeeze(diff2(i,:,:,:)) + squeeze(diff(i,j,:,:,:)));
-    end
-    diff2(i,:,:,:) = squeeze(floor(diff2(i,:,:,:) / (testCount - 1)));
+for i = 1:testSize-1
+    diff(i,:,:,:) = squeeze(averages(i,:,:,:)) - squeeze(averages(i+1,:,:,:));
 end
 
 
-for i = 1:testSize
-    imshow(squeeze(diff2(i,:,:,:)));
+for i = 1:testSize-1
+    imshow(squeeze(diff(i,:,:,:)));
     pause(1);
 end
