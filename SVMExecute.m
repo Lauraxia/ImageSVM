@@ -86,7 +86,7 @@
     numblocks = (length(test_d(:,1)) / blocksize);
 
     for block = 1:numblocks
-        fprintf('Classifying Block %d of %d\n', block, numblocks)
+        fprintf('Classifying Block %d of %d\n', block, round(numblocks))
         class_d(blocksize*(block-1)+1:blocksize*block,:) = svmclassify(svmstr_d, test_d(blocksize*(block - 1)+1:blocksize*(block), :));
         
     end
