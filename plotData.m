@@ -9,12 +9,12 @@ y = zeros(testSize*testCount,1);
 for i = 1:testSize
     for j = 1:testCount
         dataLocation = sprintf('testing/size%d/test%d/data.mat',i,j);
-        fileLocation = sprintf('testing/size%d/test%d/',i,j);
+        fileLocation = sprintf('testing/size%d/test%d/accuracy.mat',i,j);
         load(dataLocation,'uniqueTraining');
-        fileList = dir(fileLocation);
+        load(fileLocation,'acc2');
         
         x(j+i*testCount) = length(uniqueTraining(:,1));
-        y(j+i*testCount) = sscanf(fileList(3).name,'%f');
+        y(j+i*testCount) = acc2;
     end
 end
 
