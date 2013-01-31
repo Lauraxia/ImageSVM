@@ -11,16 +11,19 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     mask_level_b    = 1;
     mask_level_t    = 255;
     mask_inc        = -1;       % -1 for decrement
-    mask_count      = 40;       % Number of points per mask layer
-    mask_entireimg  = 10000;    % Number of points from images (no mask)
     mask_file       = 'density_mask.png';
+    
+    % By disabling the mask count and entire count
+    %mask_count      = 40;       % Number of points per mask layer
+    %mask_entireimg  = 10000;    % Number of points from images (no mask)
+
     class_file      = 'density_class.png';
 
     class_one       = -1;       % White Mask
     class_two       = 1;        % Black Mask
     class_cutoff    = 128;      % Gray Midpoint
     
-    
+    mask_cullspace  = 0.10;     % Exponential Percent of points to add for culling.
     % Construct the heap of points to be used for training.
     mask_data  = rgb2gray(imread(mask_file));
     class_data = rgb2gray(imread(class_file));
@@ -39,6 +42,22 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
         end
         mask_levels = mask_level_t:mask_inc:mask_level_b;
     end
+    
+    
+    % If we haven't defined the number of points per layer (mask_count) and
+    % the number of points to take from the entire image (mask_entireimg),
+    % we will take 20% more points to allow for culling space.
+    %
+    % POINTLIMIT ^(1.MASK_CULLSPACE) = 
+    %       MASK_COUNT * length(mask_levels) + MASK_ENTIREIMG
+    
+    if (~exist('mask_count','var'))
+        mask_count = round((pointLimit^(1 + mask_cullspace/2)) / length(mask_levels));
+    end
+    if (~exist('mask_entireimg','var'))
+        mask_entireimg = round(pointLimit^(1 + mask_cullspace) - mask_count * length(mask_levels));
+    end
+    
     point_heap = zeros(length(mask_levels) * mask_count, 3);
 
     if (mask_entireimg > 0)
@@ -110,17 +129,14 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     
     point_heap = [prefix_heap;point_heap];
     
-    if (exist('pointLimit','var'))
-        % Since we've defined the number of points we want, we will permute
-        % and filter the points down to the requested amount.
-        
-        permute_this = randperm(length(point_heap(:,1)));
-        permute_this = permute_this(1:pointLimit);
-        
-        point_heap = point_heap(permute_this,:);
-        fprintf('Limiting output to %d points\n',pointLimit)
-    end
+    % Since we've defined the number of points we want, we will permute
+    % and filter the points down to the requested amount.
+    permute_this = randperm(length(point_heap(:,1)));
+    permute_this = permute_this(1:pointLimit);
     
+    point_heap = point_heap(permute_this,:);
+    fprintf('Limiting output to %d points\n',pointLimit)
+        
     maskPoints = [point_heap(:,1), point_heap(:,2), point_heap(:,3)];
   
     
