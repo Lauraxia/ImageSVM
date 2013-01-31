@@ -8,10 +8,11 @@
     
     load('Unique_Training_Data.mat');
     %training_all
-    random_order = randperm(length(uniqueTraining(:,1)));
+    %random_order = randperm(length(uniqueTraining(:,1)));
     
     midpoint = 0.66*length(uniqueTraining(:,1));
     
+    %{
     trainxy_d = zeros(midpoint, 3);
     testxy_d = zeros(length(uniqueTraining(:,1)) - midpoint, 3);
     
@@ -20,9 +21,11 @@
     trainxy_d(:,3) = uniqueTraining(random_order(1:midpoint), 3);
     testxy_d(:,1) = uniqueTraining(random_order(midpoint+1:end), 1);
     testxy_d(:,2) = uniqueTraining(random_order(midpoint+1:end), 2);
-    testxy_d(:,3) = uniqueTraining(random_order(midpoint+1:end), 3);
+    testxy_d(:,3) = uniqueTraining(random_order(midpoint+1:end), 3);\
+    %}
     
-
+    trainxy_d = uniqueTraining(1:midpoint,:);
+    testxy_d = uniqueTraining(midpoint:end,:);
         
     
     %load, transpose image:
