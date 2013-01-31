@@ -23,8 +23,8 @@ for testNumber = 1:length(testSize)
         save(saveDataLocation, 'img_plot', 'svmstr_d', 'uniqueTraining');
         close all;
         
-        saveAccuracyLocation = sprintf('%s/%f',currentTestLocation,acc*100);
-        save(saveAccuracyLocation, 'acc');
+        saveAccuracyLocation = sprintf('%s/%s',currentTestLocation,'accuracy.mat');
+        save(saveAccuracyLocation, 'acc','acc2');
     end
     
 end
