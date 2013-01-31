@@ -1,5 +1,13 @@
-%function output = SVMExecute
-
+%function output = SVMExecute 
+    a = [ 1 1 1 1 1 0];
+    % 1 = XY
+    % 2 = Gaussian Lab
+    % 3 = Lab
+    % 4 = Sobel
+    % 5 = Gaussian Sobel
+    % 6 = Gaussian Canny
+    
+    
 %% load stuff
     fprintf('Reading logical categorization data (category.dat)\n')
     %class_d = csvread('category.dat');
@@ -50,17 +58,45 @@
         end
     end
     
-    labtrain_d = zeros(rowcount,3);
+    
     
     fprintf('Converting Training Points to LAB format\n')
-    labtrain_d = xyToLab(trainxy_d(:, 1:2), image_d);
-    sobel_d = xyToSobel(trainxy_d(:, 1:2), image_d);
-    gaussiansobel_d = xyToGaussianSobel(trainxy_d(:, 1:2), image_d);
-    gaussianlab_d = xyToGaussianLab(trainxy_d(:, 1:2), image_d);
+
+    
     % To create the training and test data, we need to concatenate the
     % two matricies together to form the 5-Dimensional Input.
     % train_d[h,2], labtrain_d[h,3]
-    train_d = horzcat(horzcat(trainxy_d(:,1:2),gaussianlab_d), horzcat(horzcat(labtrain_d, sobel_d), gaussiansobel_d));
+    
+    
+
+    train_d = zeros(length(trainxy_d(:,1:1)), 1);
+    if a(1)
+        train_d = horzcat(train_d, trainxy_d(:,1:2));
+    end
+    if a(2)
+        gaussianlab_d = xyToGaussianLab(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, gaussianlab_d);
+    end
+    if a(3)
+        labtrain_d = zeros(rowcount,3);
+        labtrain_d = xyToLab(trainxy_d(:, 1:2), image_d); 
+        train_d = horzcat(train_d, labtrain_d);
+    end
+    if a(4)
+        sobel_d = xyToSobel(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, sobel_d);
+    end
+    if a(5)
+        gaussiansobel_d = xyToGaussianSobel(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, gaussiansobel_d);
+    end
+    if a(6)
+        canny_d = xyToCanny(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, canny_d);
+    end
+    train_d(:,1) = [];
+    
+    %train_d = horzcat(horzcat(trainxy_d(:,1:2),gaussianlab_d), horzcat(horzcat(labtrain_d, sobel_d), gaussiansobel_d));
     %train_d = labtrain_d;%
     %train_d = trainxy_d(:,1:2);
     %% training
@@ -75,11 +111,39 @@
     testlab_d = zeros(rowcount,3);
     
     fprintf('Converting Test Points to LAB format\n')
-    testlab_d = xyToLab(testxy_d, image_d);
-    testsobel_d = xyToSobel(testxy_d, image_d);
-    testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
-    testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
-    test_d = horzcat(horzcat(testxy_d(:,1:2), testgaussianlab_d), horzcat(horzcat(testlab_d, testsobel_d), testgaussiansobel_d));
+    %testlab_d = xyToLab(testxy_d, image_d);
+    %testsobel_d = xyToSobel(testxy_d, image_d);
+    %testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
+    %testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
+    %test_d = horzcat(horzcat(testxy_d(:,1:2), testgaussianlab_d), horzcat(horzcat(testlab_d, testsobel_d), testgaussiansobel_d));
+    
+    test_d = zeros(rowcount, 1);
+    if a(1)
+        test_d = horzcat(test_d, testxy_d(:,1:2));
+    end
+    if a(2)
+        testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
+        test_d = horzcat(test_d, testgaussianlab_d);
+    end
+    if a(3)
+        testlab_d = zeros(rowcount,3);
+        testlab_d = xyToLab(testxy_d, image_d); 
+        test_d = horzcat(test_d, testlab_d);
+    end
+    if a(4)
+        testsobel_d = xyToSobel(testxy_d, image_d);
+        test_d = horzcat(test_d, testsobel_d);
+    end
+    if a(5)
+        testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
+        test_d = horzcat(test_d, testgaussiansobel_d);
+    end
+    if a(6)
+        testcanny_d = xyToCanny(testxy_d, image_d);
+        test_d = horzcat(test_d, testcanny_d);
+    end
+    test_d(:,1) = []; %awfully beautiful
+    
     %test_d = testlab_d;%testxy_d(:,1:2);
     %test_d = testxy_d(:,1:2);
     fprintf('Classifying Data using SVM\n')
@@ -140,11 +204,11 @@
     
     
     cmp2 = 0;
-    for i=1:length(testxy_d(:,1,1))
-       cmp2 = cmp2 + cmp(testxy_d(i,2),testxy_d(i,1));
+    for i=1:length(trainxy_testd(:,1,1))
+       cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
     end
     
-    acc2 = cmp2/length(testxy_d(:,1,1));
+    acc2 = cmp2/length(trainxy_testd(:,1,1));
     disp([num2str(acc2*100) '% accuracy for test points only'])
     
 %end

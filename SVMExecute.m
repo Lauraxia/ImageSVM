@@ -1,5 +1,13 @@
-%function output = SVMExecute
-
+%function output = SVMExecute 
+    a = [ 1 1 1 1 1 0];
+    % 1 = XY
+    % 2 = Gaussian Lab
+    % 3 = Lab
+    % 4 = Sobel
+    % 5 = Gaussian Sobel
+    % 6 = Gaussian Canny
+    
+    
 %% load stuff
     fprintf('Reading logical categorization data (category.dat)\n')
     %class_d = csvread('category.dat');
@@ -12,21 +20,8 @@
     
     midpoint = 0.66*length(uniqueTraining(:,1));
     
-    %{
-    trainxy_d = zeros(midpoint, 3);
-    testxy_d = zeros(length(uniqueTraining(:,1)) - midpoint, 3);
-    
-    trainxy_d(:,1) = uniqueTraining(random_order(1:midpoint), 1);
-    trainxy_d(:,2) = uniqueTraining(random_order(1:midpoint), 2);
-    trainxy_d(:,3) = uniqueTraining(random_order(1:midpoint), 3);
-    testxy_d(:,1) = uniqueTraining(random_order(midpoint+1:end), 1);
-    testxy_d(:,2) = uniqueTraining(random_order(midpoint+1:end), 2);
-    testxy_d(:,3) = uniqueTraining(random_order(midpoint+1:end), 3);\
-    %}
-    
     trainxy_d = uniqueTraining(1:midpoint,:);
     trainxy_testd = uniqueTraining(midpoint:end,:);
-        
     
     %load, transpose image:
     fprintf('Loading Image Data\n')
@@ -35,8 +30,6 @@
     image_d2(:,:,2) = image_d(:,:,2)';
     image_d2(:,:,3) = image_d(:,:,3)';
     image_d = image_d2;
-    %conv_str = makecform('srgb2lab');
-    %labimg_d = applycform(image_d,conv_str);
     
     rowcount = length(trainxy_d(:,1));
     
@@ -50,19 +43,37 @@
         end
     end
     
-    labtrain_d = zeros(rowcount,3);
-    
-    fprintf('Converting Training Points to LAB format\n')
-    labtrain_d = xyToLab(trainxy_d(:, 1:2), image_d);
-    sobel_d = xyToSobel(trainxy_d(:, 1:2), image_d);
-    gaussiansobel_d = xyToGaussianSobel(trainxy_d(:, 1:2), image_d);
-    gaussianlab_d = xyToGaussianLab(trainxy_d(:, 1:2), image_d);
     % To create the training and test data, we need to concatenate the
-    % two matricies together to form the 5-Dimensional Input.
-    % train_d[h,2], labtrain_d[h,3]
-    train_d = horzcat(horzcat(trainxy_d(:,1:2),gaussianlab_d), horzcat(horzcat(labtrain_d, sobel_d), gaussiansobel_d));
-    %train_d = labtrain_d;%
-    %train_d = trainxy_d(:,1:2);
+    % two matricies together to form the N-Dimensional Input.
+    train_d = zeros(length(trainxy_d(:,1:1)), 1);
+    if a(1)
+        train_d = horzcat(train_d, trainxy_d(:,1:2));
+    end
+    if a(2)
+        fprintf('Converting Training Points to LAB (Gaussian) format\n')
+        gaussianlab_d = xyToGaussianLab(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, gaussianlab_d);
+    end
+    if a(3)
+        fprintf('Converting Training Points to LAB format\n')
+        labtrain_d = zeros(rowcount,3);
+        labtrain_d = xyToLab(trainxy_d(:, 1:2), image_d); 
+        train_d = horzcat(train_d, labtrain_d);
+    end
+    if a(4)
+        sobel_d = xyToSobel(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, sobel_d);
+    end
+    if a(5)
+        gaussiansobel_d = xyToGaussianSobel(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, gaussiansobel_d);
+    end
+    if a(6)
+        canny_d = xyToCanny(trainxy_d(:, 1:2), image_d);
+        train_d = horzcat(train_d, canny_d);
+    end
+    train_d(:,1) = []; %yes, this is really awful...
+    
     %% training
     
     fprintf('Creating Support Vector Structure\n')
@@ -74,16 +85,37 @@
     rowcount = length(testxy_d(:,1));
     testlab_d = zeros(rowcount,3);
     
-    fprintf('Converting Test Points to LAB format\n')
-    testlab_d = xyToLab(testxy_d, image_d);
-    testsobel_d = xyToSobel(testxy_d, image_d);
-    testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
-    testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
-    test_d = horzcat(horzcat(testxy_d(:,1:2), testgaussianlab_d), horzcat(horzcat(testlab_d, testsobel_d), testgaussiansobel_d));
-    %test_d = testlab_d;%testxy_d(:,1:2);
-    %test_d = testxy_d(:,1:2);
-    fprintf('Classifying Data using SVM\n')
+
+    test_d = zeros(rowcount, 1);
+    if a(1)
+        test_d = horzcat(test_d, testxy_d(:,1:2));
+    end
+    if a(2)
+        fprintf('Converting Test Points to LAB (Gaussian) format\n')
+        testgaussianlab_d = xyToGaussianLab(testxy_d, image_d);
+        test_d = horzcat(test_d, testgaussianlab_d);
+    end
+    if a(3)
+        fprintf('Converting Test Points to LAB format\n')
+        testlab_d = zeros(rowcount,3);
+        testlab_d = xyToLab(testxy_d, image_d); 
+        test_d = horzcat(test_d, testlab_d);
+    end
+    if a(4)
+        testsobel_d = xyToSobel(testxy_d, image_d);
+        test_d = horzcat(test_d, testsobel_d);
+    end
+    if a(5)
+        testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
+        test_d = horzcat(test_d, testgaussiansobel_d);
+    end
+    if a(6)
+        testcanny_d = xyToCanny(testxy_d, image_d);
+        test_d = horzcat(test_d, testcanny_d);
+    end
+    test_d(:,1) = []; %awful
     
+    fprintf('Classifying Data using SVM\n')
     
     blocksize = 2000;
     numblocks = (length(test_d(:,1)) / blocksize);
@@ -94,17 +126,6 @@
         
     end
     class_d(blocksize*block+1:rowcount,:) = svmclassify(svmstr_d, test_d(blocksize*block+1:rowcount, :));
-
-    %{
-    mid = length(test_d(:,1))/4;
-    testend = length(test_d(:,1))/2;
-    class_d1 = svmclassify(svmstr_d, test_d(1:mid, :));
-    
-    class_d2 = svmclassify(svmstr_d, test_d(mid+1:testend, :));
-    % output = classperf(class_d, test_d);
-    
-    %output = vertcat(class_d1, class_d2);
-    %}
     
     %% Classify, Plot
     
@@ -124,8 +145,7 @@
     img_plot(:,:,1) = channel1b;
     img_plot(:,:,2) = channel2b;
     img_plot(:,:,3) = channel3b;
-    
-    
+       
     imshow(img_plot);
     
     % Accuracy
@@ -136,8 +156,6 @@
     
     acc = (sum(sum(cmp)))/(M*N);
     disp([num2str(acc*100) '% accuracy'])
-    
-    
     
     cmp2 = 0;
     for i=1:length(trainxy_testd(:,1,1))
