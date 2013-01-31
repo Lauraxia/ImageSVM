@@ -52,7 +52,7 @@ function [ maskPoints ] = generateMaskPoints (verbosity, pointLimit)
     %       MASK_COUNT * length(mask_levels) + MASK_ENTIREIMG
     
     if (~exist('mask_count','var'))
-        mask_count = round((pointLimit^(1 + mask_cullspace/2)) / length(mask_levels));
+        mask_count = max(round((pointLimit^(1 + mask_cullspace/2)) / length(mask_levels)),512);
     end
     if (~exist('mask_entireimg','var'))
         mask_entireimg = round(pointLimit^(1 + mask_cullspace) - mask_count * length(mask_levels));
