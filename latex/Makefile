@@ -13,6 +13,10 @@ all:
 	@${ccpdf} ${target} 1>/dev/null
 
 clean:
-	@echo Cleaning up ${target}.
-	-@rm -f *.aux *.bbl *.log *.lof *.toc *.blg ${target}.pdf
+	@echo Cleaning up ${target} generation files.
+	-@rm -f *.aux *.bbl *.log *.lof *.toc *.blg
+
+cleanpdf:
+	@echo Removing ${target}'s PDF rendering.
+	-@rm -f ${target}.pdf
 
