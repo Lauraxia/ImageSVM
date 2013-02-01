@@ -82,9 +82,10 @@
     fprintf('Reading testing data (test.dat)\n')
     %testxy_d = csvread('test.dat');
     
-    image_d = imread('other.jpg');
+    % if desired, uncomment to load in a different image to test with:
+    %image_d = imread('other.jpg');
     
-    testlab_d = zeros(rowcount,3);
+    
     
     count = 1;
         testxy_d = zeros(length(image_d(:,1,1))*length(image_d(1,:,1)), 2);
@@ -116,6 +117,7 @@ rowcount = length(testxy_d(:,1));
         test_d = horzcat(test_d, testsobel_d);
     end
     if a(5)
+        
         testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
         test_d = horzcat(test_d, testgaussiansobel_d);
     end
@@ -157,22 +159,22 @@ rowcount = length(testxy_d(:,1));
     img_plot(:,:,3) = channel3b;
        
     imshow(img_plot);
-%     
-%     % Accuracy
-%     imageCmp = imread('Haykin_cover_sketch-mask.bmp');
-%     
-%     cmp = (img_plot(:,:,1) > 0 & imageCmp(:,:,1) > 0) | ((img_plot(:,:,2) >0) & (imageCmp(:,:,1) == 0));
-%     [M,N] = size(cmp);
-%     
-%     acc = (sum(sum(cmp)))/(M*N);
-%     disp([num2str(acc*100) '% accuracy'])
-%     
-%     cmp2 = 0;
-%     for i=1:length(trainxy_testd(:,1,1))
-%         cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
-%     end
-%     
-%     acc2 = cmp2/length(trainxy_testd(:,1,1));
-%     disp([num2str(acc2*100) '% accuracy for test points only'])
+    
+    % Accuracy
+    imageCmp = imread('Haykin_cover_sketch-mask.bmp');
+    
+    cmp = (img_plot(:,:,1) > 0 & imageCmp(:,:,1) > 0) | ((img_plot(:,:,2) >0) & (imageCmp(:,:,1) == 0));
+    [M,N] = size(cmp);
+    
+    acc = (sum(sum(cmp)))/(M*N);
+    disp([num2str(acc*100) '% accuracy'])
+    
+    cmp2 = 0;
+    for i=1:length(trainxy_testd(:,1,1))
+        cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
+    end
+    
+    acc2 = cmp2/length(trainxy_testd(:,1,1));
+    disp([num2str(acc2*100) '% accuracy for test points only'])
     
 %end
