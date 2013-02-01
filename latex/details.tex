@@ -4,3 +4,10 @@
 
 When choosing the parameters to train the support vector machine, we decided to expand on the data available from the image. By applying certain filters to the image, it is possible to expand on the features of the image without requiring manual editing of the image.
 
+Perhaps the most obvious parameters to use are the X and Y-coordinates of each pixel.  The door area is confined to two very specific, continuous areas of the image; the boundaries of this image, however, are not simple, and to satisfactorily represent them, a very high number of sample points would be required.
+
+Another, simpler observation is that the door largely consists of a single colour: brown.  There are, of course, other brown regions in the image, and there are considerable variations in the shades of brown throughout the door, but this provides a decent guess.  
+
+This observation can be further strengthened by representing the colours of image pixels in terms of luminance and chrominance channels, as specified by the Lab colour system. The numerical differences between colours in this representation correspond much more closely to the perceived visual differences.  Also, the luminance, or brightness, of the image is preserved in a channel of its own; this is the most visually important colour channel, in terms of perception, and indeed, most regions of the door appear to have similar brightness levels.
+
+
