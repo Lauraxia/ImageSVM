@@ -33,15 +33,15 @@
     
     rowcount = length(trainxy_d(:,1));
     
-%     count = 1;
-%         testxy_d = zeros(length(image_d(:,1,1))*length(image_d(1,:,1)), 2);
-%     for i=1:length(image_d(:,1,1))
-%         for j=1:length(image_d(1,:,1))
-%             testxy_d(count, 1) = i;
-%             testxy_d(count, 2) = j;
-%             count = count +1;
-%         end
-%     end
+    count = 1;
+        testxy_d = zeros(length(image_d(:,1,1))*length(image_d(1,:,1)), 2);
+    for i=1:length(image_d(:,1,1))
+        for j=1:length(image_d(1,:,1))
+            testxy_d(count, 1) = i;
+            testxy_d(count, 2) = j;
+            count = count +1;
+        end
+    end
     
     % To create the training and test data, we need to concatenate the
     % two matricies together to form the N-Dimensional Input.
@@ -82,21 +82,10 @@
     fprintf('Reading testing data (test.dat)\n')
     %testxy_d = csvread('test.dat');
     
-    % if desired, uncomment to load in a different image to test with:
-    %image_d = imread('other.jpg');
+    rowcount = length(testxy_d(:,1));
+    testlab_d = zeros(rowcount,3);
     
-    
-    
-    count = 1;
-        testxy_d = zeros(length(image_d(:,1,1))*length(image_d(1,:,1)), 2);
-    for i=1:length(image_d(:,1,1))
-        for j=1:length(image_d(1,:,1))
-            testxy_d(count, 1) = i;
-            testxy_d(count, 2) = j;
-            count = count +1;
-        end
-    end
-rowcount = length(testxy_d(:,1));
+
     test_d = zeros(rowcount, 1);
     if a(1)
         test_d = horzcat(test_d, testxy_d(:,1:2));
@@ -117,7 +106,6 @@ rowcount = length(testxy_d(:,1));
         test_d = horzcat(test_d, testsobel_d);
     end
     if a(5)
-        
         testgaussiansobel_d = xyToGaussianSobel(testxy_d, image_d);
         test_d = horzcat(test_d, testgaussiansobel_d);
     end
@@ -171,7 +159,7 @@ rowcount = length(testxy_d(:,1));
     
     cmp2 = 0;
     for i=1:length(trainxy_testd(:,1,1))
-        cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
+       cmp2 = cmp2 + cmp(trainxy_testd(i,2),trainxy_testd(i,1));
     end
     
     acc2 = cmp2/length(trainxy_testd(:,1,1));
