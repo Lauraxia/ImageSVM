@@ -1,7 +1,6 @@
 \chapter{Operational Information}
 
-To classify the picture as closely as possible to the desired result, it was necessary to review the details of the image for any features that could be extracted at an elementary level. The support vector machine implementation in Matlab allowed for as many classification parameters to be passed for generating the classification structure.
-
+To classify the picture as closely as possible to the desired result, it was necessary to review the details of the image for any features that could be extracted at an elementary level. The elementary level in this case is the raw image data available through individual pixel values. The support vector machine implementation in Matlab allowed for as many classification parameters to be passed for generating the classification structure. 
 
 \begin{figure}[h]
     \centering
@@ -12,7 +11,9 @@ To classify the picture as closely as possible to the desired result, it was nec
 
 When using the class mask, as seen in \ref{fig:00_classmask}, it was necessary to generate a set of points to apply to the mask which maximized the positive effect on the support vector machine while reducing the requirement for an overly high number of required points. 
 
-As explained by Dr. Haykin, the support vector machine internally tries to maximize the distance between the points it is currently training against and the desired hyperplane. \citep[]{00_SimonHaykin} Randomly generating points from the entire images with no concern for position doesn't benefit the areas in the image where the distinction between both classes is quite complex.
+As explained by Dr. Haykin, the support vector machine internally tries to maximize the distance between the points it is currently training against and the desired hyperplane\citep{SH_hyperplane0}. Randomly generating points from the entire images with no concern for position doesn't benefit the areas in the image where the distinction between both classes is quite complex. 
+
+A method for promoting certain parts of the image while also allowing for automation of point generation is shown below. By applying a Gaussian blur filter to the previous hard-edged mask, a new mask where the point densities increase relative to the distance to the mask boundary is generated.
 
 \begin{figure}[h]
     \centering
@@ -21,4 +22,12 @@ As explained by Dr. Haykin, the support vector machine internally tries to maxim
     \label{fig:01_densitymask}
 \end{figure}
 
+The training point generator generator works.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[height=3in]{02_densitymask3D}
+    \caption{Colormap demonstrating point densities at different pixel locations}
+    \label{fig:02_densitymask3D}
+\end{figure}
 
