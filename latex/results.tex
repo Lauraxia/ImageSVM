@@ -17,8 +17,15 @@ Over the numerous types of parameters we could specify for the support vector ma
 
 The pixel location had a surprisingly opposite reaction to the effectiveness of the system upon adding its values to the training data.
 
+
+********
+Seen in the pictures, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In those places the SVM was liable to give false positive results. There was a limited number of false negative issues with the SVM.
+********
+
 \chapter{Outcome}
 
 By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these training points had a greater effect on the results at when the total training points was lower. As expected, the results are very sensitive to the position of the training points -- as more of the points will become support vectors that are further away from the optimal hyperplane. The sensitivity of the accuracy decreased drastically with increased number of point.
+
+
 
 
