@@ -36,3 +36,33 @@ The training point generator works by sampling points through probability specif
 \end{figure}
 
 
+For selecting the kernel to be used in the support vector machine, it was necessary to test those available to us from Matlab. The kernel functions available to us were as follows:
+
+\begin{itemize}
+  \item Linear
+  \item Quadratic
+  \item Polynomial
+  \item Radial Basis Function (RBF)
+  \item Multilayer Perceptron (MLP)
+\end{itemize}
+
+We decided to use the RBF kernel as it worked well in conjunction with the image processing done during training. To compare the kernels, we can examine the accuracy at sampling 1000 points from the image for training. When using the MLP kernel, we noticed the accuracy dropped over 40 percentile points for a similar calculation time to the RBF. Interestingly enough, the linear kernel function was not only faster than the RBF and MLP but also had a comparable accuracy to the RBF. The
+quadratic kernel function had a time almost halfway between the linear and RBF kernels.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{08_classifycompare}
+    \caption{Comparison of the Different kernels using 1000 training points}
+    \label{fig:08_classifycompare}
+\end{figure}
+
+
+For the regression method, we chose to use "Least Squares". The choices available to us were:
+
+\begin{itemize}
+  \item Least Squares (LS)
+  \item Quadratic Programming (QP)
+  \item Sequential Minimal Optimization (SMO)
+\end{itemize}
+
+Quadratic Programming was highly resource intensive for generating a classifier in respect to both Least Squares and Sequential Minimal Optimization. We were unable to generate a classifier with the resources we had with QP, thus we had to exclude it from our methods. 
