@@ -7,23 +7,62 @@ The testing data was gathered both before by hand, and automated for ease of tes
 
 \section{Overall Effect}
 
-Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data.
+Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data. 
+\\
+The main parameters tested were as follows:
 
-\begin{enumerate}
+\begin{description}
   \item L*ab (Direct Pixel Value)
   \item L*ab (Radial Blur Pixel Value)
   \item XY (Pixel Location)
-\end{enumerate}
+\end{description}
 
-The pixel location had a surprisingly opposite reaction to the effectiveness of the system upon adding its values to the training data.
 
-********
-Seen in the pictures, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In those places the SVM was liable to give false positive results. There was a limited number of false negative issues with the SVM.
-********
+\begin{figure}
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{14_labtrainingonly}
+                \caption{L*ab training}
+                \label{fig:14_labtrainingonly}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{15_gaussianlabtrainingonly}
+                \caption{L*ab Radial Blur}
+                \label{fig:15_gaussianlabtrainingonly}
+        \end{subfigure}
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{13_xytrainingonly}
+                \caption{XY Pixel Location}
+                \label{fig:13_xytrainingonly}
+        \end{subfigure}
+        \caption{Results of Differing SVM information}\label{fig:animals}
+\end{figure}
+
+The pixel location had a surprisingly opposite reaction to the effectiveness of the system upon adding its values to the training data. Using only the pixel coordinates to train the system had detrimental effects on the performance of the SVM. 
+
+Seen in the pictures, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
+
+\newpage
 
 \section{Outcome}
 
+\begin{figure}[ht]
+    \centering
+    \includegraphics[height=3.5in]{12_testsizevsaccuracy}
+    \caption{Changes in accuracy in the SVM from variance in the training set size.}
+    \label{fig:12_testsizevsaccuracy}
+\end{figure}
+
 By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these training points had a greater effect on the results at when the total training points was lower. As expected, the results are very sensitive to the position of the training points -- as more of the points will become support vectors that are further away from the optimal hyperplane. The sensitivity of the accuracy decreased drastically with increased number of point.
+
+
 
 
 
