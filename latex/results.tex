@@ -8,23 +8,19 @@ The testing data was gathered by hand, and later automated for ease of testing. 
 \section{Overall Effect}
 
 Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data.
-
 \\
 The main parameters tested were as follows:
-
 \begin{description}
   \item L*ab (Direct Pixel Value)
   \item L*ab (Radial Blur Pixel Value)
   \item XY (Pixel Location)
 \end{description}
-
-
 \begin{figure}
         \centering
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{14_labtrainingonly}
-                \caption{L*ab Pixel data}
+                \caption{L*a*b* Pixel data -- 89.87\% accuracy \\*}
                 \label{fig:14_labtrainingonly}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
@@ -32,16 +28,34 @@ The main parameters tested were as follows:
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{15_gaussianlabtrainingonly}
-                \caption{L*ab Radial Blur}
-                \label{fig:15_gaussianlabtrainingonly}
+                \caption{Gaussian Radial Blur (L*a*b* pixel data) -- 90.16\% accuracy}
+                \label{fig:15_gaussianlabtrainingonly}     
         \end{subfigure}
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{13_xytrainingonly}
-                \caption{XY Pixel Location}
+                \caption{XY Pixel Location -- 82.53\% accuracy \\*}
                 \label{fig:13_xytrainingonly}
+        \end{subfigure}
+         \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{16_sobeltrainingonly}
+                \caption{Sobel information -- 61.82\% accuracy \\*}
+                \label{fig:16_sobeltrainingonly}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{17_labsobelgaussiantraining_93}
+                \caption{L*a*b*, Gaussian Radial Blur, and Sobel -- 92.22\% accuracy}
+                \label{fig:17_labsobelgaussiantraining_93}
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=\textwidth]{18_labsobelgaussianxytraining_96}
+                \caption{XY, L*a*b*, Gaussian Radial Blur, and Sobel -- 94.71\% accuracy}
+                \label{fig:18_labsobelgaussianxytraining_96}
         \end{subfigure}
         \caption{Results of Differing SVM information, individual testing}\label{fig:labResults}
 \end{figure}
@@ -63,7 +77,6 @@ In the end it was determined that the inputs that yielded the most optimal resul
 \end{figure}
 
 By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these points had a greater effect on the results than when the number of points was higher. The variance in the accuracy with differing test sets decreased when the total number of points increased. As expected, the results are very sensitive to the position of the training points; more points will become support vectors that are further away from the optimal hyperplane.
-\\
 
 
 
