@@ -18,6 +18,7 @@ sobel = zeros(length(xy(:,1)), 2);
 for i=1:length(xy(:,1))
     sobel(i, 1) = filtH(xy(i,1), xy(i,2));
     sobel(i, 2) = filtV(xy(i,1), xy(i,2));
+   % sobel(i, 3) = atan2(sobel(i,2), sobel(i,3));
 end
 
 end

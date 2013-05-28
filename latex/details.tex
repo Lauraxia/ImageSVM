@@ -4,10 +4,23 @@
 
 When choosing the parameters to train the support vector machine, we decided to expand on the data available from the image. By applying certain filters to the image, it is possible to expand on the features of the image without requiring manual editing of the image.
 
+ \subsection{X and Y Coordinates}
 Perhaps the most obvious parameters to use are the X and Y-coordinates of each pixel.  The door area is confined to two very specific, continuous areas of the image; the boundaries of this image, however, are not simple, and to satisfactorily represent them, a very high number of sample points would be required.
 
+\subsection{L*a*b* Colour Differences}
 Another, simpler observation is that the door largely consists of a single colour: brown.  There are, of course, other brown regions in the image, and there are considerable variations in the shades of brown throughout the door, but this provides a decent guess.  
 
-This observation can be further strengthened by representing the colours of image pixels in terms of luminance and chrominance channels, as specified by the Lab colour system. The numerical differences between colours in this representation correspond much more closely to the perceived visual differences.  Also, the luminance, or brightness, of the image is preserved in a channel of its own; this is the most visually important colour channel, in terms of perception, and indeed, most regions of the door appear to have similar brightness levels.
+This observation can be further strengthened by representing the colours of image pixels in terms of luminance and chrominance channels, as specified by the CIELAB (L*a*b*) colour system. The numerical differences between colours in this representation correspond much more closely to the perceived visual differences, with the colour difference between any two points being fairly accurately defined by the Euclidian distance between them, as specified in the CIELAB $\Delta E_{ab}^*$ 1976 standard:
+\begin{equation}
+\Delta E_{ab}^* = \sqrt{ (L^*_2-L^*_1)^2+(a^*_2-a^*_1)^2 + (b^*_2-b^*_1)^2 }
+\end{equation}
+The square of this function is of a very similar form to the RBF kernel function, which also features the Euclidian distance between samples:
+
+\begin{equation}
+K(\mathbf{x}, \mathbf{x'}) = \exp\left(-\frac{||\mathbf{x} - \mathbf{x'}||_2^2}{2\sigma^2}\right)
+\end{equation}
+Therefore, with appropriate training data, the RBF kernel function will loosely approximate the $\Delta E_{ab}^*$ function.
+
+  Another benefit of this colour space is that the luminance, or brightness, of the image is preserved in a channel of its own; this $L^*$ channel is the most visually important colour channel, in terms of perception, and indeed, most regions of the door appear to have similar brightness levels.
 
 
