@@ -6,7 +6,7 @@ To classify the picture as closely as possible to the desired result, it was nec
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[height=3in]{00_classmask}
+    \includegraphics[height=2in]{00_classmask}
     \caption{Classification Mask used to determine class of training points}
     \label{fig:00_classmask}
 \end{figure}
@@ -19,20 +19,65 @@ As explained by Dr. Haykin, the support vector machine internally tries to maxim
 
 A method for promoting certain parts of the image while also allowing for automation of point generation is shown below. By applying a Gaussian blur filter to the previous hard-edged mask, a new mask where the point densities increase relative to the distance to the mask boundary is generated.
 
-\begin{figure}[p]
+\begin{figure}[ht]
     \centering
-    \includegraphics[height=3in]{01_densitymask}
+    \includegraphics[height=2in]{01_densitymask}
     \caption{Mask relating desired point density to position}
     \label{fig:01_densitymask}
 \end{figure}
 
 The training point generator works by sampling points through probability specified by the pixel values on this density mask. Visually the colormap, as shown in \ref{fig:02_densitymask3D}, is an example in which the points will be more likely to be generated from. For small training sizes, there is no guarantee that points will exist from those levels in the produced training set as the pool itself is sampled and culled to bring forth the final training set.
 
-\begin{figure}[p]
+\begin{figure}[ht]
     \centering
-    \includegraphics[height=3in]{02_densitymask3D}
+    \includegraphics[height=2in]{02_densitymask3D}
     \caption{Colormap demonstrating point densities at different pixel locations}
     \label{fig:02_densitymask3D}
+\end{figure}
+
+
+\section{Kernel Function}
+
+For selecting the kernel to be used in the support vector machine, it was necessary to test those available to us from Matlab. The kernel functions available to us were as follows:
+
+\begin{itemize}
+  \item Linear
+  \item Quadratic
+  \item Polynomial
+  \item Radial Basis Function (RBF)
+  \item Multilayer Perceptron (MLP)
+\end{itemize}
+
+We decided to use the RBF kernel as it worked well in conjunction with the image processing done during training. To compare the kernels, we can examine the accuracy at sampling 1000 points from the image for training. When using the MLP kernel, we noticed the accuracy dropped over 40 percentile points for a similar calculation time to the RBF. Interestingly enough, the linear kernel function was not only faster than the RBF and MLP but also had a comparable accuracy to the RBF. The
+quadratic kernel function had a time almost halfway between the linear and RBF kernels.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{08_classifycompare}
+    \caption{Comparison of the Different kernels using 1000 training points}
+    \label{fig:08_classifycompare}
+\end{figure}
+
+
+\section{Hyperplane Method}
+
+For the method of determining the appropriate hyperplane, we chose to use "Least Squares". The choices available to us were:
+
+\begin{itemize}
+  \item Least Squares (LS)
+  \item Quadratic Programming (QP)
+  \item Sequential Minimal Optimization (SMO)
+\end{itemize}
+
+Quadratic Programming was highly resource intensive for generating a classifier in respect to both Least Squares and Sequential Minimal Optimization. When using QP, Matlab failed to finish generating the hyperplane, thus we were unable to generate a classifier with the resources we had with QP. Due to this fact, we had to exclude it from our methods.
+
+When comparing least squares versus sequential minimal optimization, there was no appreciable difference between the accuracies of the two. The differences between the images in \ref{fig:11_lssmocompare} are very minimal, to the degree of the sixth significant digit or more.
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{11_lssmocompare.png}
+    \caption{Comparison between methods of Least Squares and Sequential Minimal Optimization}
+    \label{fig:11_lssmocompare}
 \end{figure}
 
 
