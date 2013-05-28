@@ -13,4 +13,6 @@
 # Dia/ViM progress files
 *~
 
+# Matlab intermediate files
+*.asv
 
