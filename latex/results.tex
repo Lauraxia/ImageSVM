@@ -7,7 +7,8 @@ The testing data was gathered by hand, and later automated for ease of testing. 
 
 \section{Overall Effect}
 
-Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data. 
+Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data.
+
 \\
 The main parameters tested were as follows:
 
@@ -23,7 +24,7 @@ The main parameters tested were as follows:
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
                 \includegraphics[width=\textwidth]{14_labtrainingonly}
-                \caption{L*ab training}
+                \caption{L*ab Pixel data}
                 \label{fig:14_labtrainingonly}
         \end{subfigure}%
         ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
@@ -42,11 +43,13 @@ The main parameters tested were as follows:
                 \caption{XY Pixel Location}
                 \label{fig:13_xytrainingonly}
         \end{subfigure}
-        \caption{Results of Differing SVM information}\label{fig:animals}
+        \caption{Results of Differing SVM information, individual testing}\label{fig:labResults}
 \end{figure}
 The pixel location had a surprisingly opposite reaction to the effectiveness of the system upon adding its values to the training data. Using only the pixel coordinates to train the system had detrimental effects on the performance of the SVM. 
 
-Seen in the pictures, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
+Seen in figure \ref{fig:labResults}, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
+
+In the end it was determined that the inputs that yielded the most optimal results were the L*ab colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel colour, the derivation, and the integration of the pixel value. This was done in an attempt to maximize the amount of information, without adding too many inputs to keep complexity too high.
 
 \newpage
 
