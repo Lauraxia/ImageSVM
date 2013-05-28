@@ -3,7 +3,7 @@
 \section{Classification of Testing Data}
 To determine optimal performance, we wanted to test the system setup with different numbers of training points. Variable number of parameters were extracted from the image to test the improvement in performance of the SVM classification.
 
-The testing data was gathered both before by hand, and automated for ease of testing. After gathering the points they were classified into their respective categories with a premade mask selecting whether specific points were part of the door or not.
+The testing data was gathered by hand, and later automated for ease of testing. After gathering the points they were classified into their respective categories with a premade mask selecting whether specific points were part of the door or not.
 
 \section{Overall Effect}
 
@@ -44,7 +44,6 @@ The main parameters tested were as follows:
         \end{subfigure}
         \caption{Results of Differing SVM information}\label{fig:animals}
 \end{figure}
-
 The pixel location had a surprisingly opposite reaction to the effectiveness of the system upon adding its values to the training data. Using only the pixel coordinates to train the system had detrimental effects on the performance of the SVM. 
 
 Seen in the pictures, the hardest parts for the SVM to properly classify were the places with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
@@ -60,7 +59,9 @@ Seen in the pictures, the hardest parts for the SVM to properly classify were th
     \label{fig:12_testsizevsaccuracy}
 \end{figure}
 
-By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these training points had a greater effect on the results at when the total training points was lower. As expected, the results are very sensitive to the position of the training points -- as more of the points will become support vectors that are further away from the optimal hyperplane. The sensitivity of the accuracy decreased drastically with increased number of point.
+By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these points had a greater effect on the results than when the number of points was higher. The variance in the accuracy with differing test sets decreased when the total number of points increased. As expected, the results are very sensitive to the position of the training points; more points will become support vectors that are further away from the optimal hyperplane.
+\\
+
 
 
 
