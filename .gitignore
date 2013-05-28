@@ -1,0 +1,16 @@
+# LaTeX Build Files
+*.aux
+*.bbl
+*.log
+*.lof
+*.toc
+*.blg
+*.make
+*.d
+*.fls
+*.temp
+
+# Dia/ViM progress files
+*~
+
+
