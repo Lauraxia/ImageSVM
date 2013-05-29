@@ -1,28 +1,20 @@
 \chapter {Testing \& Results of Support Vector Classification}
 
 \section{Classification of Testing Data}
-To determine optimal performance, we wanted to test the system setup with different numbers of training points. Variable number of parameters were extracted from the image to test the improvement in performance of the SVM classification.
-
-The testing data was gathered by hand, and later automated for ease of testing. After gathering the points they were classified into their respective categories with a premade mask selecting whether specific points were part of the door or not.
-
-The final accuracy was measured as a percentage of correctly classified points for the total image, and of points that were specifically near where the optimal hyperplane should be.
+To determine optimal performance, the system was setup with different numbers of training points. A variable number of parameters were used to test the improvement in performance of the SVM classification. The testing data was gathered by hand, and later automated for ease of testing. After gathering the points they were classified into their respective categories with a premade mask selecting whether specific points were part of the door or not. The final accuracy was measured as a percentage of correctly classified points for the total image, and of points that were specifically near where the optimal hyperplane should be. As mentioned before, the main parameters tested are:\\ 
+\textbf{XY (Pixel Location)}\\
+\textbf{L*a*b* Pixel value} \\
+\textbf{L*a*b* Radial Blur} \\
+\textbf{L*a*b* Sobel} 
 \section{Overall Effect}
- 
-To evaluate the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data.
-As mentioned before, the main parameters tested were as follows:
-\begin{description}
+To evaluate the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data. The accuracies presented are from 33\% of the total sample points used -- where 66\% are for training. \newpage
 
 
-  \item XY (Pixel Location)
-  \item L*a*b* Pixel value
-  \item L*a*b* Radial Blur
-  \item L*a*b* Sobel
-\end{description}
-\begin{figure}
+\begin{figure}[h]
         \centering
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
-                \includegraphics[width=2in]{14_labtrainingonly}
+                \includegraphics[width=1.4in]{14_labtrainingonly}
                 \caption{L*a*b* Pixel data -- 89.87\% accuracy \\*}
                 \label{fig:14_labtrainingonly}
         \end{subfigure}%
@@ -31,7 +23,7 @@ As mentioned before, the main parameters tested were as follows:
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
 
-                \includegraphics[width=2in]{15_gaussianlabtrainingonly}
+                \includegraphics[width=1.4in]{15_gaussianlabtrainingonly}
                 \caption{Gaussian Radial Blur (L*a*b* pixel data) -- 90.16\% accuracy}
                 \label{fig:15_gaussianlabtrainingonly}     
         \end{subfigure}
@@ -40,43 +32,39 @@ As mentioned before, the main parameters tested were as follows:
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
 
-                \includegraphics[width=2in]{13_xytrainingonly}
+                \includegraphics[width=1.4in]{13_xytrainingonly}
                 \caption{XY Pixel Location -- 82.53\% accuracy \\*}
                 \label{fig:13_xytrainingonly}
         \end{subfigure}
          \begin{subfigure}[b]{0.3\textwidth}
                 \centering
 
-                \includegraphics[width=2in]{16_sobeltrainingonly}
+                \includegraphics[width=1.4in]{16_sobeltrainingonly}
                 \caption{Sobel information -- 61.82\% accuracy \\*}
                 \label{fig:16_sobeltrainingonly}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
 
-                \includegraphics[width=2in]{17_labsobelgaussiantraining_93}
+                \includegraphics[width=1.4in]{17_labsobelgaussiantraining_93}
                 \caption{L*a*b*, Gaussian Radial Blur, and Sobel -- 92.22\% accuracy}
                 \label{fig:17_labsobelgaussiantraining_93}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
 
-                \includegraphics[width=2in]{18_labsobelgaussianxytraining_96}
+                \includegraphics[width=1.4in]{18_labsobelgaussianxytraining_96}
                 \caption{XY, L*a*b*, Gaussian Radial Blur, and Sobel -- 94.71\% accuracy}
                 \label{fig:18_labsobelgaussianxytraining_96}
         \end{subfigure}
 
         \caption{Results of Differing SVM information, individual testing -- using 2000 training points. Accuracy values are from edge case testing, total value is higher}\label{fig:labResults}
 \end{figure}
-In the end it was determined that the inputs that yielded the most optimal results were the L*a*b* colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel colour, the derivation, and the integration of the pixel values. These have shown to be effective parameters for classification.
-
-Seen in figure \ref{fig:labResults}, the hardest parts for the SVM to properly classify were areas with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
-
-
-
-
+As seen in figure \ref{fig:labResults}, it was determined that the inputs that yielded the most optimal results were the XY position, L*a*b* colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel position, the pixel colour, the derivation, and the integration of the pixel values. These have shown to be effective parameters for classification. The hardest parts for the SVM to properly classify were areas with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
 
 \section{Outcome}
+
+By limiting the data sent to the training set for the support vector machine, it was possible to observe a performance of 90\% and above for even small amounts of training data. The position of these points had a greater effect on the results than when the number of points was higher. The variance in the accuracy with differing test sets decreased when the total number of points increased. As expected, the results were very sensitive to the position of the training points; more points will cause the support vectors to be further away from the optimal hyperplane
 
 \begin{figure}[ht]
     \centering
@@ -85,7 +73,53 @@ Seen in figure \ref{fig:labResults}, the hardest parts for the SVM to properly c
     \label{fig:12_testsizevsaccuracy}
 \end{figure}
 
-By limiting the data sent to the training set for the support vector machine, it was possible to observe 90\% and above performance for even small amounts of training data. The position of these points had a greater effect on the results than when the number of points was higher. The variance in the accuracy with differing test sets decreased when the total number of points increased. As expected, the results were very sensitive to the position of the training points; more points will cause the support vectors to be further away from the optimal hyperplane.
+Using X and Y as the additional input information was good at a higher number of training points, do not show as good of a performance alone, or when using smaller training sets. The L*a*b* Gaussian Radial blur information was by far the best for contributing to overall accuracy. 
 
-Using X and Y as the additional input information was good at a higher number of training points, but is not good alone, or when using a smaller training set. The L*a*b* Gaussian Radial blur information was by far the best for contributing to overall accuracy.
+\begin{figure}[h]
+        \centering
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+                \includegraphics[width=1.4in]{19_labsobelgaussianxytraining_90-3275_80_100}
+                \caption{100 Sample points}
+                \label{fig:19_labsobelgaussianxytraining_90.3275_80_100}
+        \end{subfigure}%
+        ~ %add desired spacing between images, e. g. ~, \quad, \qquad etc.
+          %(or a blank line to force the subfigure onto a new line)
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
 
+                \includegraphics[width=1.4in]{22_labsobelgaussianxyexample_97-5312_96-0823_3000}
+                \caption{3000 Sample points}
+                \label{fig:22_labsobelgaussianxyexample_97.5312_96.0823_3000}     
+        \end{subfigure}
+        ~
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+
+                \includegraphics[width=1.4in]{21_labsobelgaussianxyexample_98-1101_96-7173_6000}
+                \caption{6000 Sample points}
+                \label{fig:21_labsobelgaussianxyexample_98.1101_96.7173_6000}     
+        \end{subfigure}
+        \begin{subfigure}[b]{0.3\textwidth}
+                \centering
+
+                \includegraphics[width=1.4in]{20_labsobelgaussianxyexample_98-5724_97-4761_12000}
+                \caption{12000 Sample points}
+                \label{fig:20_labsobelgaussianxyexample_98.5724_97.4761_12000}     
+        \end{subfigure}
+        \caption{Results of Differing sample points}\label{fig:samplepoints}
+\end{figure}
+
+\begin{center}
+  \begin{tabular}{| c | c | c | c | }
+    \hline
+    \textbf{Total Points} & \textbf{Training Set size} & \textbf{Testing set accuracy} & \textbf{Overall accuracy} \\ \hline
+    100 & 66 & 80\% & 90.33\% \\ \hline
+    3000 & 1980 & 96.08\% & 97.53\% \\ \hline
+    6000 & 3960 & 96.72\% & 98.11\% \\ \hline
+    12000 & 7920 & 97.48\% & 98.57\% \\ 
+    \hline
+  \end{tabular}
+\end{center}
+
+As seen in figure \ref{fig:samplepoints} there is a obvious diminishing returns effect that is hit quite quickly when increasing the number of points that are used to train the SVM. While it is possible to get good results at low number of sample points, the performance depends far more on the position of the points.
