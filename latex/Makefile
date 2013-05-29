@@ -4,13 +4,13 @@ target = report
 
 all:
 	@echo Building ${target} Base File
-	@${ccpdf} ${target} 1>/dev/null
+	@${ccpdf} ${target} > /dev/null 2>&1
 	@echo Creating Bibliography References Lookup File
-	@${ccbib} ${target} 1>/dev/null
+	@${ccbib} ${target} > /dev/null 2>&1
 	@echo Linking References to ${target}.pdf
-	@${ccpdf} ${target} 1>/dev/null
+	@${ccpdf} ${target} > /dev/null 2>&1
 	@echo Finalizing ${target}.pdf
-	@${ccpdf} ${target} 1>/dev/null
+	@${ccpdf} ${target} > /dev/null 2>&1
 
 clean:
 	@echo Cleaning up ${target} generation files.
