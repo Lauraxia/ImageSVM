@@ -10,6 +10,8 @@ The testing data was gathered by hand, and later automated for ease of testing. 
 Over the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data.
 As mentioned before, the main parameters tested were as follows:
 \begin{description}
+
+
   \item XY (Pixel Location)
   \item L*a*b* Pixel value
   \item L*a*b* Radial Blur
@@ -27,6 +29,7 @@ As mentioned before, the main parameters tested were as follows:
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
+
                 \includegraphics[width=2in]{15_gaussianlabtrainingonly}
                 \caption{Gaussian Radial Blur (L*a*b* pixel data) -- 90.16\% accuracy}
                 \label{fig:15_gaussianlabtrainingonly}     
@@ -35,34 +38,40 @@ As mentioned before, the main parameters tested were as follows:
           %(or a blank line to force the subfigure onto a new line)
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
+
                 \includegraphics[width=2in]{13_xytrainingonly}
                 \caption{XY Pixel Location -- 82.53\% accuracy \\*}
                 \label{fig:13_xytrainingonly}
         \end{subfigure}
          \begin{subfigure}[b]{0.3\textwidth}
                 \centering
+
                 \includegraphics[width=2in]{16_sobeltrainingonly}
                 \caption{Sobel information -- 61.82\% accuracy \\*}
                 \label{fig:16_sobeltrainingonly}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
+
                 \includegraphics[width=2in]{17_labsobelgaussiantraining_93}
                 \caption{L*a*b*, Gaussian Radial Blur, and Sobel -- 92.22\% accuracy}
                 \label{fig:17_labsobelgaussiantraining_93}
         \end{subfigure}
         \begin{subfigure}[b]{0.3\textwidth}
                 \centering
+
                 \includegraphics[width=2in]{18_labsobelgaussianxytraining_96}
                 \caption{XY, L*a*b*, Gaussian Radial Blur, and Sobel -- 94.71\% accuracy}
                 \label{fig:18_labsobelgaussianxytraining_96}
         \end{subfigure}
+
         \caption{Results of Differing SVM information, individual testing -- using 2000 training points. Accuracy values are from edge case testing, total value is higher}\label{fig:labResults}
 \end{figure}
-
 Seen in figure \ref{fig:labResults}, the hardest parts for the SVM to properly classify were areas with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
 
+
 In the end it was determined that the inputs that yielded the most optimal results were the L*a*b* colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel colour, the derivation, and the integration of the pixel values. This was done in an attempt to maximize the amount of information, without adding too many inputs to keep complexity too high.
+
 
 \section{Outcome}
 
