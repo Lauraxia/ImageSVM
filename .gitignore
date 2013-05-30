@@ -9,6 +9,8 @@
 *.d
 *.fls
 *.temp
+*.pdf
+*.gz
 
 # Dia/ViM progress files
 *~
