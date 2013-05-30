@@ -68,30 +68,30 @@ Y_{n} = 0.3290\\
 Z_{n} = 0.3583
 \end{array}
 \end{eqnarray}
-The L*, a*, and b* channels of the source image after it has been converted from sRGB in this manner may be observed in.
+The L*, a*, and b* channels of the source image after it has been converted from sRGB in this manner may be observed in Figure \ref{fig:labchannels}.  It is interesting to note that JPEG compression artifacts are much more visible on the a* and b* channels than on the L* channel; many image compression algorithms take advantage of the fact that L* colour information is the most perceptually important, and leave this channel relatively untouched while heavily compressing the remaining, less important colour information ~\citep{sayood2005introduction}.
 
 \begin{figure}[h]
         \centering
         \begin{subfigure}[b]{0.33\textwidth}
                 \centering
                 \includegraphics[width=2.7in]{23_LAB_Lchannel}
-                \caption{100 Sample points}
+                \caption{L* channel}
                 \label{fig:23_LAB_Lchannel}
         \end{subfigure}%
         \begin{subfigure}[b]{0.33\textwidth}
                 \centering
 
                 \includegraphics[width=2.7in]{24_LAB_achannel}
-                \caption{3000 Sample points}
+                \caption{a* channel}
                 \label{fig:24_LAB_achannel}     
         \end{subfigure}
         \begin{subfigure}[b]{0.33\textwidth}
                 \centering
                 \includegraphics[width=2.7in]{25_LAB_bchannel}
-                \caption{6000 Sample points}
+                \caption{b* channel}
                 \label{fig:25_LAB_bchannel}     
         \end{subfigure}
-        \caption{Results of Differing sample points}\label{fig:labchannels}
+        \caption{The three colour channels of the sample image in the L*a*b* colour space.}\label{fig:labchannels}
 \end{figure}
 
 Because the L*a*b* colour space is designed for perceptual uniformity, the perceived colour difference between any two points is fairly accurately defined by the Euclidian distance between them, as specified in the CIELAB $\Delta E_{ab}^*$ 1976 standard:
