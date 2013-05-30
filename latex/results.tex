@@ -1,13 +1,17 @@
 \chapter {Testing \& Results of Support Vector Classification}
 
 \section{Classification of Testing Data}
-To determine optimal performance, the system was setup with different numbers of training points. A variable number of parameters were used to test the improvement in performance of the SVM classification. The testing data was gathered by hand, and later automated for ease of testing. After gathering the points they were classified into their respective categories with a premade mask selecting whether specific points were part of the door or not. The final accuracy was measured as a percentage of correctly classified points for the total image, and of points that were specifically near where the optimal hyperplane should be. As mentioned before, the main parameters tested are:\\ 
+To determine optimal performance, the system was setup with different numbers of training points. A variable number of parameters were used to test the improvement in performance of the SVM classification. The testing data was gathered by hand, and later automated for ease of testing. After gathering the points, they were classified into their respective categories with a premade mask described earlier. The final accuracy was measured as a percentage of correctly classified points for the total image, and of points that were close to the optimal hyperplane.
+\section{Overall Effect}
+The main parameters used in the SVM are:\\ 
+\\
 \textbf{XY (Pixel Location)}\\
 \textbf{L*a*b* Pixel value} \\
 \textbf{L*a*b* Radial Blur} \\
-\textbf{L*a*b* Sobel} 
-\section{Overall Effect}
-To evaluate the numerous types of parameters we could specify for the support vector machine to operate on, the order of effectiveness can be determined by the relative accuracy increase through its inclusion into the training data. The accuracies presented are from 33\% of the total sample points used -- where 66\% are for training. \newpage
+\textbf{L*a*b* Sobel} \\
+\\
+To evaluate the parameters in effectiveness their accuracies are compared individually. In figure \ref{fig:15_gaussianlabtrainingonly} the images were gained by passing each point through the SVM, and returning a green pixel if the point was classified as a door otherwise a red pixel would be returned. The accuracies presented are from testing 33\% of the total sample points used -- where 66\% are used for training the SVM.
+\newpage
 
 
 \begin{figure}[h]
@@ -58,13 +62,13 @@ To evaluate the numerous types of parameters we could specify for the support ve
                 \label{fig:18_labsobelgaussianxytraining_96}
         \end{subfigure}
 
-        \caption{Results of Differing SVM information, individual testing -- using 2000 training points. Accuracy values are from edge case testing, total value is higher}\label{fig:labResults}
+        \caption{Results of Differing SVM information, individual testing -- using 2000 sample points. Accuracy values are from edge case testing, total value is higher}\label{fig:labResults}
 \end{figure}
-As seen in figure \ref{fig:labResults}, it was determined that the inputs that yielded the most optimal results were the XY position, L*a*b* colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel position, the pixel colour, the derivation, and the integration of the pixel values. These have shown to be effective parameters for classification. The hardest parts for the SVM to properly classify were areas with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
+As seen in figure \ref{fig:labResults}, it was determined that the inputs that yielded the most optimal results were the XY position, L*a*b* colour data, the Sobel filter data, and the Gaussian Radial Blur. In effect, the pixel position and the pixel colour alongside with the derivation and the integration of the pixel L* data. These have shown to be effective parameters for classification. The hardest parts for the SVM to properly classify were areas with both similar colour and texture to the door. In these areas, the SVM had a higher probability to return false positive results.
 
 \section{Outcome}
 
-By limiting the data sent to the training set for the support vector machine, it was possible to observe a performance of 90\% and above for even small amounts of training data. The position of these points had a greater effect on the results than when the number of points was higher. The variance in the accuracy with differing test sets decreased when the total number of points increased. As expected, the results were very sensitive to the position of the training points; more points will cause the support vectors to be further away from the optimal hyperplane
+By limiting the number of training points for the support vector machine, it was possible to achieve performances of 90\% and above. But the position of these points had a greater effect on the results than when the number of points was higher. As expected, the results were very sensitive to the position of the training points; more points will cause the support vectors to be further away from the optimal hyperplane. Thus, the variance in the accuracy with differing test sets decreased when the total number of points increased. This effect can be seen in figure \ref{fig:12_testsizevsaccuracy}.
 
 \begin{figure}[ht]
     \centering
@@ -73,7 +77,7 @@ By limiting the data sent to the training set for the support vector machine, it
     \label{fig:12_testsizevsaccuracy}
 \end{figure}
 
-Using X and Y as the additional input information was good at a higher number of training points, do not show as good of a performance alone, or when using smaller training sets. The L*a*b* Gaussian Radial blur information was by far the best for contributing to overall accuracy. 
+Using X and Y as the additional input information was good at a higher number of training points, but did not show as good of a performance as the only parameter, or when using smaller training sets. The L*a*b* Gaussian Radial blur information was by far the best for contributing to overall accuracy. 
 
 \begin{figure}[h]
         \centering
@@ -122,4 +126,4 @@ Using X and Y as the additional input information was good at a higher number of
   \end{tabular}
 \end{center}
 
-As seen in figure \ref{fig:samplepoints} there is a obvious diminishing returns effect that is hit quite quickly when increasing the number of points that are used to train the SVM. While it is possible to get good results at low number of sample points, the performance depends far more on the position of the points.
+As seen in figure \ref{fig:samplepoints} there are diminishing returns when increasing the number of points that are used to train the SVM. While it is possible to get good results at low number of sample points, the performance depends far more on the position of the points.
